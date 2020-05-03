@@ -1,6 +1,6 @@
 require 'rails_helper'
 require 'json'
-require './app/services/exchange_services'
+require './app/services/exchange_service'
 
 describe ExchangeService do
   let(:source_currency) {'USD'}
@@ -21,7 +21,7 @@ describe ExchangeService do
    end
 
    before do
-     allow(RestClient).to receive(:get) {OpenStruct.new(body: api_return.json)}
+     allow(RestClient).to receive(:get) {OpenStruct.new(body: api_return.to_json)}
    end
 
   it '#call' do

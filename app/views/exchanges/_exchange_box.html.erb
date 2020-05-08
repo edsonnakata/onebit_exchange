@@ -6,31 +6,51 @@
     </div>
  ​
     <div class='card-block'>
-     <%= form_with url: "/convert", method: :get, id: 'exchange_form' do |f| %>
+     <%= form_with url: "/convert", method: :get, id: 'exchange-form' do |f| %>
         <div class='local_currency'>
           <div class='form-group'>
             <p class='title'>Moeda Local</p>
-           <%= f.select 'source_currency', options_for_select(currency_list, 'BRL'), {}, { class: 'form-control', id: 'source_currency' } %>
+           <%= f.select 'source_currency', options_for_select(currency_list, 'BRL'), {}, { class: 'form-control', id: 'source_currency', onchange: 'submit_form()' } %>
           </div>
  ​
           <div class='form-group'>
-           <%= f.number_field 'amount', id: 'amount', class: 'form-control', placeholder: 'Quantidade ($10)', step: 'any', required: true %>
+           <%= f.number_field 'amount', id: 'amount', class: 'form-control',
+                placeholder: 'Quantidade ($10)', step: 'any', required: true, onkeypress: 'submit_form()' %>
           </div>
         </div>
                     
         <div class='destination_currency'>
           <div class='form-group'>
             <p class='title'>Moeda Pretendida</p>
-           <%= f.select 'target_currency', options_for_select(currency_list, 'EUR'), {}, { class: 'form-control', id: 'target_currency' } %>
+           <%= f.select 'target_currency', options_for_select(currency_list, 'EUR'), {}, { class: 'form-control', id: 'target_currency', onchange: 'submit_form()' } %>
           </div>
           <div class='form-group'>
             <input type='text' id='result' name='result' class='form-control' placeholder='Resultado' readonly>
           </div>
         </div>
         <div>
-         <%= f.submit "CONVERTER", class: 'btn btn-primary btn-exchange col-md-12' %>
+          <button class="btn btn-primary btn-exchange col-md-12" type="button" onclick="change_coin()">
+            TROCAR MOEDAS
+          </button>
+         <%= f.submit "CONVERTER", class: 'btn btn-primary btn-exchange col-md-12',
+             id: 'button_submit', style: "display: none;" %>
         </div>
      <% end %>
     </div>
   </div>
  </div>
+
+ <script>
+    function submit_form(){
+      document.getElementById('button_submit').click();
+    }
+
+    function change_coin(){
+      let aux= document.getElementById('source_currency').value;
+      let target_currency = document.getElementById('target_currency');
+      let source_currency = document.getElementById('source_currency');
+      source_currency.value = target_currency.value
+      target_currency.value = aux
+      document.getElementById('button_submit').click();
+    }
+ </script>
